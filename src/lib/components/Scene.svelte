@@ -1,81 +1,66 @@
 <script lang="ts">
-  import { T } from '@threlte/core'
-  import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras'
+	import { T } from '@threlte/core';
+	import { AutoColliders, CollisionGroups, Debug } from '@threlte/rapier';
+	import { BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three';
+
+	// import Door from '../../rapier/world/Door.svelte';
+	import Player from './Player.svelte';
+
+	import { OrbitControls, Environment } from '@threlte/extras';
+	import { RigidBody } from '@threlte/rapier';
+
+
+	import { GLTF, useGltf } from '@threlte/extras';
+	import { derived } from 'svelte/store';
+	import RAPIER, { Collider } from '@dimforge/rapier3d-compat';
+
+	let nsubdivs = 10;
+	let heights = [];
+	const scale = new RAPIER.Vector3(10.0, 1, 10);
+
+	const MainGround = useGltf('./models/desi-world/ground-transformed.glb', {
+		useDraco: true
+	});
+
+	const MainGate = useGltf('./models/desi-world/gate-transformed.glb', {
+		useDraco: true
+	});
+
+	const MainSign = useGltf('./models/desi-world/sign-transformed.glb', {
+		useDraco: true
+	});
 </script>
 
-<T.PerspectiveCamera
-  makeDefault
-  position={[-10, 10, 10]}
-  fov={15}
->
-  <OrbitControls
-    autoRotate
-    enableZoom={false}
-    enableDamping
-    autoRotateSpeed={0.5}
-    target.y={1.5}
-  />
-</T.PerspectiveCamera>
-
-<T.DirectionalLight
-  intensity={0.8}
-  position.x={5}
-  position.y={10}
-/>
+<T.DirectionalLight castShadow position={[8, 20, -3]} />
 <T.AmbientLight intensity={0.2} />
 
-<Grid
-  position.y={-0.001}
-  cellColor="#ffffff"
-  sectionColor="#ffffff"
-  sectionThickness={0}
-  fadeDistance={25}
-  cellSize={2}
-/>
+<Debug />
 
-<ContactShadows
-  scale={10}
-  blur={2}
-  far={2.5}
-  opacity={0.5}
-/>
+<T.GridHelper args={[50]} position.y={0.01} />
 
-<Float
-  floatIntensity={1}
-  floatingRange={[0, 1]}
->
-  <T.Mesh
-    position.y={1.2}
-    position.z={-0.75}
-  >
-    <T.BoxGeometry />
-    <T.MeshStandardMaterial color="#0059BA" />
-  </T.Mesh>
-</Float>
+<CollisionGroups groups={[0, 15]}>
+	<!-- <AutoColliders shape={'cuboid'}>
+		<T.Mesh receiveShadow geometry={new BoxGeometry(1, 1, 100)} />
+		<T.Mesh receiveShadow geometry={new BoxGeometry(100, 1, 1)} />
+	</AutoColliders> -->
 
-<Float
-  floatIntensity={1}
-  floatingRange={[0, 1]}
->
-  <T.Mesh
-    position={[1.2, 1.5, 0.75]}
-    rotation.x={5}
-    rotation.y={71}
-  >
-    <T.TorusKnotGeometry args={[0.5, 0.15, 100, 12, 2, 3]} />
-    <T.MeshStandardMaterial color="#F85122" />
-  </T.Mesh>
-</Float>
+	{#if $MainGround && $MainGate && $MainSign}
+		<RigidBody type={'fixed'}>
+			<AutoColliders shape={'trimesh'}>
+				<T.Mesh position={[0, -1, 0]} geometry={$MainGround.nodes.Plane.geometry}>
+					<T.MeshStandardMaterial visible={true} />
+				</T.Mesh>
 
-<Float
-  floatIntensity={1}
-  floatingRange={[0, 1]}
->
-  <T.Mesh
-    position={[-1.4, 1.5, 0.75]}
-    rotation={[-5, 128, 10]}
-  >
-    <T.IcosahedronGeometry />
-    <T.MeshStandardMaterial color="#F8EBCE" />
-  </T.Mesh>
-</Float>
+				<T.Mesh position={[0, -1, 0]} geometry={$MainGate.nodes.Gate.geometry}>
+					<T.MeshStandardMaterial visible={true} />
+				</T.Mesh>
+
+				<T.Mesh position={[0, -1, 0]} geometry={$MainSign.nodes.Plane.geometry}>
+					<T.MeshStandardMaterial visible={true} />
+				</T.Mesh>
+			</AutoColliders>
+		</RigidBody>
+	{/if}
+</CollisionGroups>
+
+<Player />
