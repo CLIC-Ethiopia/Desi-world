@@ -1,18 +1,17 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
 	import { AutoColliders, CollisionGroups, Debug } from '@threlte/rapier';
-	import { BoxGeometry, MeshStandardMaterial, Mesh, Group } from 'three';
 
 	// import Door from '../../rapier/world/Door.svelte';
 	import Player from './Player.svelte';
 
-	import { OrbitControls, Environment } from '@threlte/extras';
+	import { OrbitControls, Environment, Sky, SoftShadows } from '@threlte/extras';
 	import { RigidBody } from '@threlte/rapier';
-
 
 	import { GLTF, useGltf } from '@threlte/extras';
 	import { derived } from 'svelte/store';
 	import RAPIER, { Collider } from '@dimforge/rapier3d-compat';
+	import { Color, MeshBasicMaterial } from 'three';
 
 	let nsubdivs = 10;
 	let heights = [];
@@ -31,12 +30,21 @@
 	});
 </script>
 
-<T.DirectionalLight castShadow position={[8, 20, -3]} />
-<T.AmbientLight intensity={0.2} />
+<!-- <T.DirectionalLight castShadow position={[8, 20, -3]} /> -->
+<!-- <T.AmbientLight intensity={0.2} /> -->
+<!-- sky -->
+<!-- <Environment
+	path="/"
+	files="hdr2.hdr"
+	isBackground={true}
+	groundProjection={{ radius: 200, height: 5, scale: { x: 100, y: 100, z: 100 } }}
+/> -->
 
-<Debug />
+<Sky setEnvironment={true} elevation={1} />
 
-<T.GridHelper args={[50]} position.y={0.01} />
+<!-- <Debug /> -->
+
+<!-- <T.GridHelper args={[50]} position.y={0.01} /> -->
 
 <CollisionGroups groups={[0, 15]}>
 	<!-- <AutoColliders shape={'cuboid'}>
@@ -47,15 +55,42 @@
 	{#if $MainGround && $MainGate && $MainSign}
 		<RigidBody type={'fixed'}>
 			<AutoColliders shape={'trimesh'}>
-				<T.Mesh position={[0, -1, 0]} geometry={$MainGround.nodes.Plane.geometry}>
+				<T.Mesh
+					position={[0, -3, 0]}
+					geometry={$MainGround.nodes.Plane.geometry}
+					material={$MainGround.materials.Grass}
+					receiveShadow
+					castShadow
+				></T.Mesh>
+
+				<T.Mesh
+					position={[0, -3, 0]}
+					geometry={$MainGround.nodes.Plane_1.geometry}
+					material={$MainGround.materials.Brown}
+					receiveShadow
+					castShadow
+				></T.Mesh>
+
+				<T.Mesh
+					position={[0, -3, 0]}
+					geometry={$MainGate.nodes.Gate.geometry}
+					material={$MainGate.materials.WHITE}
+					receiveShadow
+					castShadow
+				>
 					<T.MeshStandardMaterial visible={true} />
 				</T.Mesh>
 
-				<T.Mesh position={[0, -1, 0]} geometry={$MainGate.nodes.Gate.geometry}>
+				<T.Mesh
+					position={[0, -3, 0]}
+					scale={0.75}
+					geometry={$MainSign.nodes.Plane.geometry}
+					material={$MainSign.materials.Brown}
+				>
 					<T.MeshStandardMaterial visible={true} />
+					<T.MeshBasicMaterial color={0x000000} />
 				</T.Mesh>
-
-				<T.Mesh position={[0, -1, 0]} geometry={$MainSign.nodes.Plane.geometry}>
+				<T.Mesh position={[0, -3, 0]} scale={0.75} geometry={$MainSign.nodes.Plane_1.geometry}>
 					<T.MeshStandardMaterial visible={true} />
 				</T.Mesh>
 			</AutoColliders>

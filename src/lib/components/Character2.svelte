@@ -8,8 +8,6 @@
 	import { backward, forward, left, right } from '$lib/stores/characterControlMovement';
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 
-
-
 	let currentActionKey = 'idle';
 	// export let object: any;
 	let scene: any;
