@@ -19,6 +19,7 @@
 	import CasinoDoor from './models/CasinoDoor.svelte';
 	import CasinoBoard from './models/CasinoBoard.svelte';
 	import Wall from './models/Wall.svelte';
+	import Plane from './models/Plane.svelte';
 
 	let nsubdivs = 10;
 	let heights = [];
@@ -45,12 +46,13 @@
 
 <CollisionGroups groups={[0, 15]}>
 	<RigidBody type={'fixed'}>
-		<Ground />
+		<!-- <Ground /> -->
+		<Plane />
 		<!-- <Walls /> -->
 		<Wall />
 
 		<MainGate />
-		<EntrySign />
+		<!-- <EntrySign /> -->
 
 		<CasinoBuilding />
 		<CasinoDoor />
