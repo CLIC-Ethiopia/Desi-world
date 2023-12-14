@@ -5,6 +5,10 @@
 <div class="Abs">
 	<button
 		on:click={() => {
+			if ($backward === 1) {
+				$backward = 0;
+				return;
+			}
 			if ($forward == 1) {
 				$forward = 0;
 				return;
@@ -15,6 +19,10 @@
 	>
 	<button
 		on:click={() => {
+			if ($forward === 1) {
+				$forward = 0;
+				return;
+			}
 			if ($backward == 1) {
 				$backward = 0;
 				return;

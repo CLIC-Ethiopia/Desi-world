@@ -307,6 +307,8 @@
 
 <T.Mesh receiveShadow castShadow>
 	<GLTF
+		castShadow
+		receiveShadow
 		url="https://threejs.org/examples/models/gltf/Xbot.glb"
 		position={[0, -0.86, 0]}
 		rotation.y={rotate}
