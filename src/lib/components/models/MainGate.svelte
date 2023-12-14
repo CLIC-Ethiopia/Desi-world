@@ -7,6 +7,7 @@ Command: npx @threlte/gltf@2.0.1 /Users/varundudeja/Documents/desi-world/static/
 	import { Group } from 'three';
 	import { T, forwardEventHandlers } from '@threlte/core';
 	import { useGltf } from '@threlte/extras';
+	import { AutoColliders } from '@threlte/rapier';
 
 	export const ref = new Group();
 
@@ -19,7 +20,13 @@ Command: npx @threlte/gltf@2.0.1 /Users/varundudeja/Documents/desi-world/static/
 	{#await gltf}
 		<slot name="fallback" />
 	{:then gltf}
-		<T.Mesh geometry={gltf.nodes.Gate.geometry} material={gltf.materials.WHITE} />
+		<AutoColliders shape={'trimesh'}>
+			<T.Group position={[0, 0, -7.88]}>
+				<T.Mesh geometry={gltf.nodes.Plane006.geometry} material={gltf.materials.Concrete} />
+				<T.Mesh geometry={gltf.nodes.Plane006_1.geometry} material={gltf.materials.Concrete} />
+				<T.Mesh geometry={gltf.nodes.Plane006_2.geometry} material={gltf.materials.Brown} />
+			</T.Group>
+		</AutoColliders>
 	{:catch error}
 		<slot name="error" {error} />
 	{/await}

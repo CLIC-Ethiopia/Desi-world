@@ -21,11 +21,7 @@ Command: npx @threlte/gltf@2.0.1 /Users/varundudeja/Documents/desi-world/static/
 		<slot name="fallback" />
 	{:then gltf}
 		<AutoColliders shape={'trimesh'}>
-			<T.Mesh
-				geometry={gltf.nodes.Ground.geometry}
-				material={gltf.materials.Grass}
-				position={[0.56, -0.57, -102.16]}
-			/>
+			<T.Mesh geometry={gltf.nodes.MainGround.geometry} material={gltf.materials.MyGround} />
 		</AutoColliders>
 	{:catch error}
 		<slot name="error" {error} />

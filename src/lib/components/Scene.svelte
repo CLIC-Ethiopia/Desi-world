@@ -18,6 +18,7 @@
 	import EntrySign from './models/EntrySign.svelte';
 	import CasinoDoor from './models/CasinoDoor.svelte';
 	import CasinoBoard from './models/CasinoBoard.svelte';
+	import Wall from './models/Wall.svelte';
 
 	let nsubdivs = 10;
 	let heights = [];
@@ -45,7 +46,8 @@
 <CollisionGroups groups={[0, 15]}>
 	<RigidBody type={'fixed'}>
 		<Ground />
-		<Walls />
+		<!-- <Walls /> -->
+		<Wall />
 
 		<MainGate />
 		<EntrySign />

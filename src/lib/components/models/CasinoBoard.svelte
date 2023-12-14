@@ -19,7 +19,12 @@ Command: npx @threlte/gltf@2.0.1 /Users/varundudeja/Documents/desi-world/static/
 	{#await gltf}
 		<slot name="fallback" />
 	{:then gltf}
-		<T.Mesh geometry={gltf.nodes.Casino_Royal.geometry} material={gltf.materials.Grey} />
+		<T.Mesh
+			geometry={gltf.nodes.Casino_Royal.geometry}
+			material={gltf.materials.Concrete}
+			position={[-0.02, 3.72, -32.74]}
+			scale={0.66}
+		/>
 	{:catch error}
 		<slot name="error" {error} />
 	{/await}
