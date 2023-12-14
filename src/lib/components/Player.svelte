@@ -6,13 +6,12 @@
 	import Controller from './ThirdPersonControls.svelte';
 	import Character2 from './Character2.svelte';
 
-
 	import { GLTF, useGltfAnimations } from '@threlte/extras';
 	import { backward, forward, left, right, up } from '$lib/stores/characterControlMovement';
 
 	const { gltf, actions } = useGltfAnimations();
 
-	export let position = [0, 3, 0];
+	export let position = [0, 1, 0];
 	export let radius = 0.3;
 	export let height = 1.7;
 	export let speed = 6;

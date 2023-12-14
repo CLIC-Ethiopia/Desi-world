@@ -20,6 +20,7 @@
 	import CasinoBoard from './models/CasinoBoard.svelte';
 	import Wall from './models/Wall.svelte';
 	import Plane from './models/Plane.svelte';
+	import { isPlane } from '$lib/stores/commonStores';
 
 	let nsubdivs = 10;
 	let heights = [];
@@ -38,7 +39,7 @@
 
 <Sky setEnvironment={true} elevation={0} />
 <!-- <T.DirectionalLight castShadow position={[0, 20, 0]} scale={2} rotation={[0, 0, 0]} intensity={1} /> -->
-<T.AmbientLight castShadow intensity={0.3} />
+<!-- <T.AmbientLight castShadow intensity={0.3} /> -->
 
 <!-- <Debug /> -->
 
@@ -60,4 +61,6 @@
 	</RigidBody>
 </CollisionGroups>
 
-<Player />
+{#if $isPlane}
+	<Player />
+{/if}

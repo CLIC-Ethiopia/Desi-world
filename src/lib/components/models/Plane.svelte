@@ -8,10 +8,17 @@ Command: npx @threlte/gltf@2.0.1 /Users/varundudeja/Documents/desi-world/static/
 	import { T, forwardEventHandlers } from '@threlte/core';
 	import { useGltf } from '@threlte/extras';
 	import { AutoColliders } from '@threlte/rapier';
+	import { onMount } from 'svelte';
+	import { isPlane } from '$lib/stores/commonStores';
 
 	export const ref = new Group();
 
 	const gltf = useGltf('/models/desi-world/Plane-transformed.glb', { useDraco: true });
+	const gltf2 = useGltf('/models/desi-world/Plane-transformed.glb', { useDraco: true }).then(
+		(res) => {
+			$isPlane = true;
+		}
+	);
 
 	const component = forwardEventHandlers();
 </script>
